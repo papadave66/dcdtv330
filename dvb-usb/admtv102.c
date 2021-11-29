@@ -1,7 +1,7 @@
 #include <linux/module.h>
 #include <linux/delay.h>
 #include <linux/i2c.h>
-#include "dvb_frontend.h"
+#include <media/dvb_frontend.h>
 
 #include "admtv102.h"
 #include "admtv102_priv.h"
@@ -920,19 +920,18 @@ static int admtv102_sleep(struct dvb_frontend *fe)
 	return 0;
 }
 
-static int admtv102_release(struct dvb_frontend *fe)
+static void admtv102_release(struct dvb_frontend *fe)
 {
 	kfree(fe->tuner_priv);
 	fe->tuner_priv = NULL;
-	return 0;
 }
 
 static const struct dvb_tuner_ops admtv102_tuner_ops = {
 	.info = {
 		.name           = "Analog Device ADMTV102",
-		.frequency_min  =  48000000,
-		.frequency_max  = 860000000,
-		.frequency_step =     50000,
+		.frequency_min_hz  =  48000000,
+		.frequency_max_hz  = 860000000,
+		.frequency_step_hz =     50000,
 	},
 
 	.release       = admtv102_release,
